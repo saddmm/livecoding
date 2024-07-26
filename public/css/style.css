@@ -1,0 +1,184 @@
+body {
+    background: #F5F4F7;
+    font-family: Helvetica, Arial, sans-serif;
+    color: black;
+}
+
+#side_nav {
+    background: white;
+    min-width: 250px;
+    max-width: 250px;
+    box-shadow: 2px 2px 8px rgba(137, 137, 137, 0.302);
+    transition: all 0.2s;
+    height: 100vh;
+}
+
+.navbar{
+    z-index: 0;
+}
+
+.content{
+    min-height: 100vh;
+    width: 100%;
+}
+
+.h-color{
+    color: rgb(107, 107, 107);
+}
+
+.sidebar li.active, .sidebar li a:hover{
+    background: #4691FE;
+    border-radius: 10px;
+    color: white;
+    animation: fadeIn 100ms;
+}
+
+@keyframes fadeIn {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+.sidebar li.active a, a.sidebar li.active a:hover{
+    color: white;
+}
+.sidebar li a{
+    color: #878787;
+}
+
+.alat-barang{
+    justify-content: start;
+    gap: 40px;
+}
+.alat{
+    width: 18rem;
+}
+
+.alat button{
+    height: 30px;
+}
+.alat h2{
+    font-size: large;
+}
+.alat p{
+    font-size: small;
+}
+
+.text-peminjaman{
+    font-size: 14px;
+}
+
+.lab{
+    font-size: 13px;
+    color: #A5A5A5;
+}
+
+.nama-lab{
+    font-size: 16px;
+}
+
+
+nav{
+    box-shadow: 2px 2px 8px rgba(163, 163, 163, 0.163);
+}
+
+.kategori{
+    background: #D9D9D9;
+    width: 308px;
+    border-radius: 50px;
+}
+
+.kategori li{
+    height: 25px;
+}
+
+.kategori li a{
+    color: #575757;
+    width: 97px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+}
+
+
+.kategori li.active, .kategori li a:hover{
+    background: white;
+    border-radius: 50px;
+    color: black;
+    animation: fadeIn 100ms;
+}
+
+.peminjaman{
+    min-width: 560px;
+    max-width: 640px;
+}
+
+.peminjaman button{
+    font-size: 12px;
+}
+
+.peminjam{
+    padding-left: 8px;
+}
+
+@media(max-width: 767px){
+    #side_nav{
+        margin-left: -250px;
+        position: fixed;
+        min-height: 100vh;
+        z-index: 1;
+        box-shadow: none;
+    }
+    #side_nav.active{
+        margin-left: 0;
+        box-shadow: 2px 2px 8px rgba(163, 163, 163, 0.163);
+    }
+    .peminjam{
+        padding-left: 30px;
+    }
+    .alat{
+        width: 12rem;
+    }
+    .alat-barang{
+        gap: 4px;
+    }
+    .alat button{
+        height: 22px;
+        width: 60px;
+        font-size: 12px;
+        padding: 5px 5px;
+    }
+    .alat h2{
+        font-size: small;
+    }
+    .alat p{
+        font-size: 10px;
+    }
+    .lab{
+        font-size: 11px;
+    }
+    .nama-lab{
+        font-size: 14px;
+    }
+    .text-peminjaman{
+        font-size: 12px;
+    }
+    .peminjaman button{
+        font-size: 10px;
+    }
+    .peminjaman{
+        min-width: 380px;
+    }
+}
+
+input::-webkit-input-placeholder{
+    color: #CCCCCC;
+    font-size: 14px;
+}
+
+
+#alert{
+    z-index: 1;
+    transition: ease-in-out 0.2;
+}

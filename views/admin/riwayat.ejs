@@ -1,0 +1,81 @@
+<% layout('layout/admin') %>
+<% moment.locale('id') %>
+
+<div class="d-flex justify-content-start mt-4">
+    <form action="">
+        <input type="text" class="form-control pencarian" id="pencarian" placeholder="Cari Apapun">
+    </form>
+</div>
+
+    <div class="table-responsive mt-4">
+    <table class="table">
+    <thead class="table-light">
+        <tr class="text-center">
+        <th scope="col">No</th>
+        <th scope="col">Peminjam</th>
+        <th scope="col">Alat / Laboratorium</th>
+        <th scope="col">Waktu Pinjam</th>
+        <th scope="col">Waktu Kembali</th>
+        <th scope="col">Kerusakan</th>
+        <th scope="col">Hapus</th>
+        </tr>
+    </thead>
+    <tbody class="table-group-divider">
+        <% let no = 1 %>
+        <% for (let riwayat of riwayats) { %>
+        <tr class="text-center align-middle">
+        <td scope="row"><%= no %></td>
+        <td >
+            <div class="row text-start">
+                <div class="col-2">
+                  <img src="/img/<%= riwayat.user.image.filename %>" class="rounded rounded-2" alt="" style="height: 40px; width: 40px;">
+                </div>
+                <div class="col-10 align-items-center pe-2 m-0 peminjam">
+                  <p class="nama-lab m-0 fw-bold text-truncate"><%= riwayat.user.nama %></p>
+                  <p class="lab m-0"><%= riwayat.user.nim %></p>
+                </div>
+              </div>
+        </td>
+        <td><%= riwayat.tool.name %></td>
+        <td style="font-size: 14px;">
+            <p class="m-0"><%= moment.utc(riwayat.waktuPinjam).local().format('ddd, DD MMM YYYY') %></p>
+            <p class="m-0"><%= moment.utc(riwayat.waktuPinjam).local().format('HH:mm') %> WIB</p>
+        </td>
+        <td style="font-size: 14px;">
+            <p class="m-0"><%= moment.utc(riwayat.waktuKembali).local().format('ddd, DD MMM YYYY') %></p>
+            <p class="m-0"><%= moment.utc(riwayat.waktuKembali).local().format('HH:mm') %> WIB</p>
+        </td>
+        <td><%= riwayat.keluhan > 0 ? riwayat.kerusakan : '-' %></td>
+        <td><button class="btn btn-danger mx-1 py-1 px-2" data-bs-toggle="modal" data-bs-target="#hapus<%= riwayat._id %>"><i class="bi bi-trash-fill"></i></button>
+        </td>
+        </tr>
+
+
+        <div class="modal fade" id="hapus<%= riwayat._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus Alat / Laboratorium</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  Yakin ingin hapus??
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                  <form action="/admin/riwayat/<%= riwayat._id %>/delete?_method=DELETE" method="post">
+                    <button type="submit" class="btn btn-danger">Hapus</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% no++ } %>
+    </tbody>
+    </table>
+    <% if (riwayats.length <= 0) {%>
+    <div class="d-flex justify-content-center">
+        Tidak Ada Riwayat
+    </div>
+    <% } %>
+    </div>

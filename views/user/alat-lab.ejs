@@ -1,0 +1,79 @@
+<% layout('layout/user') %>
+  <div class="kategori mt-4">
+    <ul class="list-unstyled py-1 mx-1 gap-1 d-flex">
+      <li class="<%= title === 'Alat & Laboratorium' ? 'active' : '' %>">
+        <a href="/" class="text-decoration-none">Semua</a>
+      </li>
+      <li class="<%= title === 'Alat' ? 'active' : '' %>">
+        <a href="/alat" class="text-decoration-none ">Alat</a>
+      </li>
+      <li class="<%= title === 'Laboratorium' ? 'active' : '' %>">
+        <a href="/laboratorium" class="text-decoration-none">Laboratorium</a>
+      </li>
+    </ul>
+  </div>
+  <div class="alat-barang row mx-auto mt-5 grid">
+    <% for (let tool of tools) { %>
+    <div class="alat card rounded-5 col-4">
+      <img src="img/<%= tool.image.filename %>" alt="" class="px-2 pt-3" style="border-radius: 30px 30px 0px 0px; max-height: 160px; object-fit: cover;">
+      <div class="card-body px-2 py-1">
+        <p class="m-0 fw-medium" style="color: #717171;"><%= tool.tag %></p>
+        <h2 class="card-title fw-bold text-truncate"><%= tool.name %></h2>
+        <div class="d-flex justify-content-between align-items-end">
+          <% if (tool.available === true){ %>
+          <p class="m-0 pb-2">Tersedia <i class="bi bi-check-circle-fill text-success"></i></p>
+          <% } else { %>
+            <s><p class="m-0 pb-2">Tersedia <i class="bi bi-ban-fill text-danger"></i></p></s>
+            <% } %>
+          <button class="btn btn-primary rounded-2 py-0 mb-2" data-bs-toggle="modal" data-bs-target="#pinjam<%= tool._id %>" <%= tool.available === false ? 'disabled' : '' %>>Pinjam</button>
+        </div>
+      </div>
+    </div>
+    
+<!-- Modal -->
+    <div class="modal fade" id="pinjam<%= tool._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Pinjam Alat / Lab</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action="/pinjam" method="post" class="needs-validation" novalidate>
+              <input type="hidden" name="rental[tool]" value="<%= tool._id %>">
+              <input type="hidden" name="rental[user]" value="<%= user._id %>">
+              <div class="mb-2">
+                  <label for="exampleInputEmail1" class="form-label mt-1"><%= tool.tag %></label>
+                  <input type="text" class="form-control" id="exampleInputEmail1" value="<%= tool.name %>" disabled required>
+                  <div class="invalid-feedback">
+                    Masukkan Nama Alat / Laboratorium
+                  </div>
+                </div>
+              <div class="row">
+                <div class="mb-2 col-6">
+                    <label for="exampleInputEmail1" class="form-label mt-1">Tanggal</label>
+                    <input type="date" class="tanggal form-control" name="tanggal" value="<%= moment().format('YYYY-MM-DD') %>" id="exampleInputEmail1" required>
+                    <div class="invalid-feedback">
+                      Masukkan Nama Alat / Laboratorium
+                    </div>
+                  </div>
+                <div class="mb-2 col-6">
+                    <label for="exampleInputEmail1" class="form-label mt-1">Waktu</label>
+                    <input type="time" class="waktu form-control" name="waktu" value="<%= moment().format('HH:mm') %>" id="exampleInputEmail1"
+                     required>
+                    <div class="invalid-feedback">
+                      Masukkan Nama Alat / Laboratorium
+                    </div>
+                  </div>
+
+              </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary">Pinjam</button>
+              </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  <% } %>

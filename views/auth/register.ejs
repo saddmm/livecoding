@@ -1,0 +1,58 @@
+<% layout('layout/auth') %>
+
+<h2 class="text-center mt-2 mb-4 fw-bold">Buat Akun</h2>
+<form class="m-3 needs-validation" action="/register" method="POST" novalidate>
+    <div class="mb-2">
+      <label for="nim" class="form-label">NIM</label>
+      <input type="text" class="form-control" name="user[nim]" placeholder="22108xxx" required>
+      <div class="invalid-feedback">
+        Harus Di isi
+      </div>
+    </div>
+    <div class="mb-2">
+      <label for="nama" class="form-label">Nama Lengkap</label>
+      <input type="text" class="form-control" name="user[nama]" placeholder="xxxx" required>
+      <div class="invalid-feedback">
+        Harus Di isi
+      </div>
+    </div>
+    <div class="mb-2">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" class="form-control" name="user[email]" placeholder="adb@xxx" required>
+      <div class="invalid-feedback">
+        Harus Di isi
+      </div>
+    </div>
+    <div class="mb-2">
+      <label for="no" class="form-label">No.Telp</label>
+      <input type="text" class="form-control" name="user[no_telp]" placeholder="089xxx" required>
+      <div class="invalid-feedback">
+        Harus Di isi
+      </div>
+    </div>
+    <div class="mb-2">
+      <label for="alamat" class="form-label">Alamat</label>
+      <textarea name="user[alamat]" id="" class="form-control" placeholder="Jl. xxx" required></textarea>
+      <div class="invalid-feedback">
+        Harus Di isi
+      </div>
+    </div>
+    <div class="mb-2">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" class="form-control" name="user[password]" placeholder="******" required>
+      <div class="invalid-feedback">
+        Harus Di isi
+      </div>
+    </div>
+    <div class="mb-2">
+      <label for="password2" class="form-label">Konfirmasi Password</label>
+      <input type="password" class="form-control" name="password" placeholder="Masukkan Password Diatas" required>
+      <div class="invalid-feedback">
+        Harus Di isi
+      </div>
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary container mt-3">Buat Akun</button>
+        <p class="mt-2">Sudah Punya Akun?<span><a href="/login" class="text-decoration-none"> Login <i class="bi bi-box-arrow-up-right"></i></a></span></p>
+    </div>
+  </form>

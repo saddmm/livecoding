@@ -1,0 +1,75 @@
+<div class="sidebar sticky-top" id="side_nav">
+    <div class="header-box p-1">
+      <button class="btn d-md-none d-block close-btn text-dark mb-0">
+        <i class="bi bi-justify fs-4"></i>
+      </button>
+      <div class="row px-3 d-flex align-content-center my-4">
+        <div class="col-3">
+          <img
+            src="/img/user.png"
+            alt=""
+            class="my-0"
+            style="width: 60px; height: 60px; border-radius: 50%"
+          />
+        </div>
+        <div class="col-9 m-auto">
+          <p
+            class="my-0 ms-3 fs-6 fw-bold lh-1"
+            style="
+              -webkit-line-clamp: 2;
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+            "
+          >
+            Admin
+          </p>
+        </div>
+      </div>
+    </div>
+    <ul class="list-unstyled px-4 my-2 fw-normal">
+      <li class="<%= title === 'Alat & Laboratorium' ? 'active' : '' %>">
+        <a href="/admin" class="text-decoration-none px-3 py-2 my-1 d-block"
+          ><i class="bi bi-tools pe-2 fs-6"></i> Alat & Laboratorium</a
+        >
+      </li>
+      <li class="<%= title === 'Peminjaman' ? 'active' : '' %>">
+        <a href="/admin/peminjaman" class="text-decoration-none px-3 py-2 my-1 d-block"
+          ><i class="bi bi-card-checklist pe-2"></i> Peminjaman</a
+        >
+      </li>
+      <li class="<%= title === 'Riwayat' ? 'active' : '' %>">
+        <a href="/admin/riwayat" class="text-decoration-none px-3 py-2 my-1 d-block"
+          ><i class="bi bi-card-checklist pe-2"></i> Riwayat</a
+        >
+      </li>
+    </ul>
+    <hr class="h-color mx-2" />
+    <ul class="list-unstyled px-4 gap-3">
+      <li class="">
+        <a href="" class="text-decoration-none px-3 py-2 my-1 d-block" data-bs-toggle="modal" data-bs-target="#logout"
+          ><i class="bx bx-log-out pe-2"></i> Logout</a
+        >
+      </li>
+    </ul>
+  </div>
+
+  <div class="modal fade" id="logout" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Logout</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Yakin ingin Logout??
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+          <form id="logout" action="/admin/logout" method="post">
+            <button type="submit" class="btn btn-danger">Logout</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

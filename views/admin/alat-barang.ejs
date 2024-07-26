@@ -1,0 +1,198 @@
+<% layout('layout/admin') %>
+<div class="kategori mt-4">
+    <ul class="list-unstyled py-1 mx-1 gap-1 d-flex">
+      <li class="<%= title === 'Alat & Laboratorium' ? 'active' : '' %>">
+        <a href="/admin/" class="text-decoration-none">Semua</a>
+      </li>
+      <li class="<%= title === 'Alat' ? 'active' : '' %>">
+        <a href="/admin/alat" class="text-decoration-none ">Alat</a>
+      </li>
+      <li class="<%= title === 'Laboratorium' ? 'active' : '' %>">
+        <a href="/admin/laboratorium" class="text-decoration-none">Laboratorium</a>
+      </li>
+    </ul>
+  </div>
+  <div class="d-flex justify-content-between mt-5">
+    <form action="">
+      <div class="input-group">
+        <input type="text" class="form-control pencarian" id="pencarian" placeholder="Cari Alat / Lab">
+        </div>
+    </form>
+    <!-- Button trigger modal -->
+    <div class="d-flex justify-content-end">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahalat">
+        <span class="fw-semibold">+</span> Alat / Lab
+        </button>
+    </div>
+  </div>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="tambahalat" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Alat/Lab</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="/admin/alat-lab" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
+            <div class="mb-2">
+                <label for="exampleInputEmail1" class="form-label mt-1">Nama</label>
+                <input type="text" class="form-control" name="tool[name]" id="exampleInputEmail1" required>
+                <div class="invalid-feedback">
+                  Masukkan Nama Alat / Laboratorium
+                </div>
+              </div>
+              <div class="mb-2">
+                <label for="gambar" class="form-label mt-1">Gambar</label>
+                <input type="file" class="form-control" name="image" id="exampleInputPassword1" accept="image/*" required>
+                <div class="invalid-feedback">
+                  Masukkan File Gambar
+                </div>
+              </div>
+              <div class="row">
+                <label for="form-check" class="form-label mt-1">Kategori</label>
+                <div class="form-check col-3 mx-2">
+                  <input class="form-check-input" type="radio" name="tool[tag]" id="flexRadioDefault1" value="Laboratorium" required>
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    Laboratorium
+                  </label>
+                </div>
+                <div class="form-check col-3 mx-2">
+                  <input class="form-check-input" type="radio" name="tool[tag]" id="flexRadioDefault2" value="Alat" required>
+                  <label class="form-check-label" for="flexRadioDefault2">
+                    Alat
+                  </label>
+                </div>
+                    <div class="col-4 mb-2 mx-2">
+                      <div class="form-check form-switch form-check-reverse">
+                        <input class="form-check-input" type="checkbox" role="switch" id="tersedia" name="tool[available]" value="true">
+                        <label class="form-check-label" for="checkboxTersedia">Tersedia</label>
+                      </div>
+                    </div>
+
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+              <button type="submit" class="btn btn-primary">Simpan</button>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-responsive mt-4">
+    <table class="table">
+      <thead class="table-light align-middle">
+        <tr>
+          <th scope="col">No</th>
+          <th scope="col">Gambar</th>
+          <th scope="col">Alat / Laboratorium</th>
+          <th scope="col">Kategori</th>
+          <th scope="col">Tersedia</th>
+          <th scope="col" class="text-center">Edit</th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        <% let no = 1 %>
+        <% for (let tool of tools) { %>
+        <tr class="align-middle">
+          <td scope="row"><%= no %></td>
+          <td><img src="/img/<%= tool.image.filename %>" alt="" width="150px"></td>
+          <td><%= tool.name %></td>
+          <td><%= tool.tag %></td>
+          <td><%= tool.available === true ? 'Ada' : 'Tidak' %></td>
+          <td class=" align-middle" >
+            <div class="d-flex justify-content-center">
+              <button class="btn btn-warning mx-1 py-1 px-2" data-bs-toggle="modal" data-bs-target="#alat<%= tool._id %>"><i class="bi bi-pencil-square" style="color: white;"></i></button>
+              <button class="btn btn-danger mx-1 py-1 px-2" data-bs-toggle="modal" data-bs-target="#hapus<%= tool._id %>"><i class="bi bi-trash-fill"></i></button>
+            </div>
+            </button>
+          </td>
+        </tr>
+
+
+      <!-- Modal Update -->
+        <div class="modal fade" id="alat<%= tool._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Update Alat/Lab</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form action="/admin/<%= tool._id %>/update?_method=PUT" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
+                  <div class="mb-2">
+                    <input type="hidden" value="<%= tool._id %>">
+                      <label for="exampleInputEmail1" class="form-label mt-1">Nama</label>
+                      <input type="text" class="form-control" name="tool[name]" id="exampleInputEmail1" value="<%= tool.name %>" required>
+                      <div class="invalid-feedback">
+                        Masukkan Nama Alat / Laboratorium
+                      </div>
+                    </div>
+                    <div class="mb-2">
+                      <label for="gambar" class="form-label mt-1">Gambar</label>
+                      <input type="file" class="form-control" name="image" id="exampleInputPassword1" accept="image/*">
+                      <div class="invalid-feedback">
+                        Masukkan File Gambar
+                      </div>
+                    </div>
+                    <div class="row">
+                      <label for="form-check" class="form-label mt-1">Kategori</label>
+                      <div class="form-check col-3 mx-2">
+                        <input class="form-check-input" type="radio" name="tool[tag]" id="flexRadioDefault1" value="Laboratorium" <%= tool.tag === 'Laboratorium' ? 'checked' : '' %> required>
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Laboratorium
+                        </label>
+                      </div>
+                      <div class="form-check col-3 mx-2">
+                        <input class="form-check-input" type="radio" name="tool[tag]" id="flexRadioDefault2" value="Alat" <%= tool.tag === 'Alat' ? 'checked' : '' %> required>
+                        <label class="form-check-label" for="flexRadioDefault2">
+                          Alat
+                        </label>
+                      </div>
+                          <div class="col-4 mb-2 mx-2">
+                            <div class="form-check form-switch form-check-reverse">
+                              <input class="form-check-input" type="checkbox" role="switch" id="tersedia" name="tool[available]" value="true" <%= tool.available === true ? 'checked' : '' %>>
+                              <label class="form-check-label" for="checkboxTersedia">Tersedia</label>
+                            </div>
+                          </div>
+      
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                  </div>
+                </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Hapus -->
+
+        <div class="modal fade" id="hapus<%= tool._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus Alat / Laboratorium</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Yakin ingin hapus??
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <form action="/admin/<%= tool._id %>/delete?_method=DELETE" method="post">
+                  <button type="submit" class="btn btn-danger">Hapus</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+<% no++ } %>
+      </tbody>
+    </table>
+  </div>

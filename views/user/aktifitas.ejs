@@ -1,0 +1,139 @@
+<% layout('layout/user') %>
+<h4 class="fw-bold mt-4 mb-4">Peminjaman</h4>
+<% moment.locale('id') %>
+<hr> <br>
+<div class="row mx-auto grid gap-3">
+
+  <% if (pinjams.length <= 0) { %>
+    <div class="d-flex justify-content-center">
+      Tidak Ada Peminjaman
+    </div>
+    <% } %>
+  <% for (let rental of pinjams) { %>
+  <div class="peminjaman card col rounded-3 border-0 shadow-sm mb-3">
+    <div class="card-body p-2">
+      <div class="row">
+        <div class="col-5 align-items-center ps-2 pe-1 m-0">
+          <p class="lab m-0"><%= rental.tool.tag %></p>
+          <p class="nama-lab m-0 fw-bold text-truncate"><%= rental.tool.name %></p>
+        </div>
+        <div class="col-3 d-flex align-items-center text-center px-1">
+          
+          <p class="text-peminjaman m-0"><%= moment.utc(rental.waktuPinjam).format('ddd, DD MMM YYYY') %></p>
+        </div>
+        <div class="col-1 d-flex align-items-center text-center px-1">
+          <p class="text-peminjaman m-0"><%= moment.utc(rental.waktuPinjam).local().format('HH:mm') %></p>
+        </div>
+        <div class="col-3 d-flex align-items-center justify-content-center">
+          <button class="btn btn-primary py-1 px-2 border-0" style="background-color: #FE794E;" data-bs-toggle="modal" data-bs-target="#kembali<%= rental._id %>">
+            Kembalikan
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Kembali -->
+  <div class="modal fade" id="kembali<%= rental._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Pengembalian Alat / Lab</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="/kembali/<%= rental._id %>?_method=PUT" method="post" class="needs-validation" novalidate>
+            <div class="mb-2">
+                <label for="exampleInputEmail1" class="form-label mt-1"><%= rental.tool.tag %></label>
+                <input type="text" class="form-control" id="exampleInputEmail1" value="<%= rental.tool.name %>" disabled required>
+              </div>
+            <div class="row">
+              <div class="mb-2 col-6">
+                  <label for="exampleInputEmail1" class="form-label mt-1">Tanggal Pinjam</label>
+                  <input type="date" class="tanggal form-control" value="<%= moment(rental.waktuPinjam).format('YYYY-MM-DD') %>" id="exampleInputEmail1" disabled required>
+                </div>
+              <div class="mb-2 col-6">
+                  <label for="exampleInputEmail1" class="form-label mt-1">Waktu Pinjam</label>
+                  <input type="time" class="waktu form-control" value="<%= moment.utc(rental.waktuPinjam).local().format('HH:mm') %>" id="exampleInputEmail1" disabled required>
+                </div>
+              <div class="mb-2 col-6">
+                  <label for="exampleInputEmail1" class="form-label mt-1">Tanggal Kembali</label>
+                  <input type="date" class="tanggal form-control" name="tanggal" value="<%= moment().format('YYYY-MM-DD') %>" id="exampleInputEmail1" required>
+                  <div class="invalid-feedback">
+                    Masukkan Tanggal Pengembalian
+                  </div>
+                </div>
+              <div class="mb-2 col-6">
+                  <label for="exampleInputEmail1" class="form-label mt-1">Waktu Kembali</label>
+                  <input type="time" class="waktu form-control" name="waktu" value="<%= moment.utc().local().format('HH:mm') %>" id="exampleInputEmail1" required>
+                  <div class="invalid-feedback">
+                    Masukkan Waktu Pengembalian
+                  </div>
+                </div>
+              </div>
+              <div class="mb-2">
+                <label for="kerusakan" class="form-label mt-1"><%= rental.tool.tag %></label>
+                <textarea name="kerusakan" class="form-control" id="" placeholder="Kosongi Bila Tidak Ada Kerusakan"></textarea>
+              </div>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+              <button type="submit" class="btn btn-primary">Kembalikan</button>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+  <% } %>
+</div>
+
+<br><br>
+
+<div class="d-flex justify-content-between">
+  <h4 class="fw-bold mb-4">Riwayat</h4>
+  <form action="">
+      <input type="text" class="form-control pencarian" id="pencarian" placeholder="Cari Apapun">
+  </form>
+</div>
+
+<div class="table-responsive mt-4">
+  <table class="table">
+    <thead class="table-light">
+      <tr class="text-center">
+        <th scope="col">No</th>
+        <th scope="col">Alat / Laboratorium</th>
+        <th scope="col">Waktu Pinjam</th>
+        <th scope="col">Waktu Kembali</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      <% let no = 1 %>
+      <% for (let riwayat of riwayats) { %>
+      <tr class="text-center align-middle">
+        <td scope="row"><%= no %></td>
+        <td><%= riwayat.tool.name %></td>
+        <td style="font-size: 14px;">
+          <p class="m-0"><%= moment.utc(riwayat.waktuPinjam).local().format('ddd, DD MMM YYYY') %></p>
+          <p class="m-0"><%= moment.utc(riwayat.waktuPinjam).local().format('HH:mm') %> WIB</p>
+        </td>
+        <td style="font-size: 14px;">
+          <p class="m-0"><%= moment.utc(riwayat.waktuKembali).local().format('ddd, DD MMM YYYY') %></p>
+          <p class="m-0"><%= moment.utc(riwayat.waktuKembali).local().format('HH:mm') %> WIB</p>
+        </td>
+        <td>
+          <button class="btn btn-primary border-0 py-1 px-2" style="background-color: #FE794E; font-size: 11px; cursor: default;">
+            Dikembalikan
+          </button>
+        </td>
+      </tr>
+      <% no++ } %>
+    </tbody>
+  </table>
+  <% if (riwayats.length <= 0) {%>
+    <div class="d-flex justify-content-center">
+      Tidak Ada Riwayat
+    </div>
+  <% } %>
+</div>

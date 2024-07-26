@@ -1,0 +1,23 @@
+<% layout('layout/auth') %>
+
+<h2 class="text-center mt-2 mb-4 fw-bold">Login</h2>
+<form class="m-3 needs-validation" action="/login" method="post" novalidate>
+    <div class="mb-2">
+      <label for="exampleInputEmail1" class="form-label">NIM</label>
+      <input type="text" class="form-control" id="exampleInputEmail1" name="nim" placeholder="Masukkan NIM" required>
+      <div class="invalid-feedback">
+        Masukkan NIM
+      </div>
+    </div>
+    <div class="mb-2">
+      <label for="exampleInputPassword1" class="form-label">Password</label>
+      <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Masukkan Password" required>
+      <div class="invalid-feedback">
+        Masukkan Password
+      </div>
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary container mt-3">Login</button>
+        <p class="mt-2">Tidak Punya Akun?<span><a href="/register" class="text-decoration-none"> Buat Akun <i class="bi bi-box-arrow-up-right"></i></a></span></p>
+    </div>
+  </form>
